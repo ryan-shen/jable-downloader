@@ -1,6 +1,5 @@
-﻿using System;
+﻿using JableDownloader.Pages;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace JableDownloader
 {
@@ -10,7 +9,7 @@ namespace JableDownloader
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new ActressPage());
         }
 
         protected override void OnStart()

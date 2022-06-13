@@ -23,6 +23,10 @@ namespace JableDownloader.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            //啟用 FFImageLoading，用來顯示 SVG 圖片
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

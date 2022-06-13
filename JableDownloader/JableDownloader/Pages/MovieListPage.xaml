@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ff="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             x:Class="JableDownloader.Pages.MovieListPage">
+
+    <CollectionView ItemsSource="{Binding Movies}">
+        <!--資料的排列方式，Orientation 為 Vertical 表示先橫再直，Horizontal 表示先直再橫-->
+        <!--Span 表示先的那個方向可以容納幾筆資料 (例如對 Vertical 設 Span = 3 就是橫的可以放 3 筆-->
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="10"/>
+        </CollectionView.ItemsLayout>
+
+        <!--絕對不要在 DataTemplate 裡面包 ViewCell，否則會導致 Specified cast is not valid 錯誤-->
+        <!--原因為 CollectionView、Grid 都不像 ListView 一樣有 Cell 的概念-->
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <StackLayout>
+                    <AbsoluteLayout>
+                        <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 200, 100"
+                               AbsoluteLayout.LayoutFlags="PositionProportional"
+                               Source="{Binding ImageUrl}"/>
+                        <Label AbsoluteLayout.LayoutBounds="0.9, 0.9, 0.25, 0.2" 
+                               AbsoluteLayout.LayoutFlags="All" 
+                               BackgroundColor="#80000000"
+                               HorizontalOptions="Center"
+                               Text="{Binding Duration}" 
+                               TextColor="White"/>
+                    </AbsoluteLayout>
+                    <Label Text="{Binding Name}" 
+                           MaxLines="1"/>
+                    <StackLayout Orientation="Horizontal">
+                        <ff:SvgCachedImage Source="resource://JableDownloader.Resources.Images.icon_eye.svg"
+                                           WidthRequest="20"/>
+                        <Label Text="{Binding WatchCountText}"
+                               MaxLines="1"
+                               VerticalOptions="Center"/>
+                        <ff:SvgCachedImage Source="resource://JableDownloader.Resources.Images.icon_heart_inline.svg"
+                                           WidthRequest="20"/>
+                        <Label Text="{Binding HeartCountText}"
+                               MaxLines="1"
+                               VerticalOptions="Center"/>
+                    </StackLayout>
+
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+</ContentPage>
