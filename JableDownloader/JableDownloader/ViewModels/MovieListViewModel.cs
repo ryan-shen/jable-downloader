@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+using System.Windows.Input;
 using HtmlAgilityPack;
+using JableDownloader.Pages;
+using Rg.Plugins.Popup.Extensions;
+using Xamarin.Forms;
 
 namespace JableDownloader.ViewModels
 {
@@ -16,6 +16,14 @@ namespace JableDownloader.ViewModels
 
         public MovieListViewModel(string url)
         {
+            ClickMovieCommand = new Command(async (parameter) =>
+            {
+                var movie = parameter as MovieViewModel;
+                
+                //固定寫死 Push 到 MainPage 即可，因為 MainPage 本身就是一個 Stack
+                await Application.Current.MainPage.Navigation.PushPopupAsync(new MoviePreviewerPopupPage(movie));
+            });
+
             GetMovies(url).ContinueWith((data) =>
             {
                 Movies = data.Result;
@@ -44,12 +52,15 @@ namespace JableDownloader.ViewModels
             {
                 Name = node.SelectSingleNode(".//div[@class='detail']/h6[@class='title']").InnerText,
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-src", ""),
+                PreviewUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-preview", ""),
                 Url = node.SelectSingleNode(".//a").GetAttributeValue("href", ""),
                 Duration = node.SelectSingleNode(".//span[@class='label']").InnerText,
                 WatchCountText = node.SelectSingleNode(".//p[@class='sub-title']/svg[1]").NextSibling.InnerText,
                 HeartCountText = node.SelectSingleNode(".//p[@class='sub-title']/svg[2]").NextSibling.InnerText,
             }).ToList();
         }
+
+        public ICommand ClickMovieCommand { get; private set; }
 
         public IList<MovieViewModel> Movies
         {

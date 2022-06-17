@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
+﻿using Foundation;
+using MediaManager;
 using UIKit;
 
 namespace JableDownloader.iOS
@@ -26,6 +23,12 @@ namespace JableDownloader.iOS
 
             //啟用 FFImageLoading，用來顯示 SVG 圖片
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
+            //啟用 Plugin.MediaManager，用來顯示 HLS 影片
+            CrossMediaManager.Current.Init();
+
+            //啟用 Popup Page
+            Rg.Plugins.Popup.Popup.Init();
 
             LoadApplication(new App());
 

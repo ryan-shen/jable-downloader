@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ff="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             x:Class="JableDownloader.Pages.MovieListPage">
+             xmlns:ff="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
+             xmlns:model="clr-namespace:JableDownloader.ViewModels" 
+             x:DataType="model:MovieListViewModel"
+             x:Class="JableDownloader.Pages.MovieListPage"
+             x:Name="ContentPage">
 
     <CollectionView ItemsSource="{Binding Movies}">
         <!--資料的排列方式，Orientation 為 Vertical 表示先橫再直，Horizontal 表示先直再橫-->
@@ -14,8 +17,13 @@
         <!--絕對不要在 DataTemplate 裡面包 ViewCell，否則會導致 Specified cast is not valid 錯誤-->
         <!--原因為 CollectionView、Grid 都不像 ListView 一樣有 Cell 的概念-->
         <CollectionView.ItemTemplate>
-            <DataTemplate>
+            <DataTemplate x:DataType="model:MovieViewModel">
                 <StackLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BindingContext.ClickMovieCommand, Source={Reference ContentPage}}"
+                                              CommandParameter="{Binding}"/>
+                    </StackLayout.GestureRecognizers>
+                    
                     <AbsoluteLayout>
                         <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 200, 100"
                                AbsoluteLayout.LayoutFlags="PositionProportional"

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:mm="clr-namespace:MediaManager.Forms;assembly=MediaManager.Forms"
+    xmlns:model="clr-namespace:JableDownloader.ViewModels"
+    x:DataType="model:MovieViewModel"
+    x:Class="JableDownloader.Pages.MoviePreviewerPopupPage">
+
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"/>
+    </pages:PopupPage.Animation>
+
+    <StackLayout VerticalOptions="Center" 
+                 HorizontalOptions="Center"
+                 BackgroundColor="White">
+        <Label Text="{Binding Name}" FontSize="Title"/>
+        <mm:VideoView VerticalOptions="Center" 
+                      HeightRequest="200"
+                      Margin="0, 20, 0, 20"
+                      Source="{Binding PreviewUrl}" 
+                      ShowControls="False"
+                      Repeat="All"
+                      AutoPlay="True"/>
+        <FlexLayout JustifyContent="SpaceEvenly">
+            <Button Text="View" WidthRequest="120" Margin="0, 0, 0, 20" CornerRadius="15"></Button>
+            <Button Text="Download" WidthRequest="120" Margin="0, 0, 0, 20" CornerRadius="15"></Button>
+        </FlexLayout>
+    </StackLayout>
+
+</pages:PopupPage>

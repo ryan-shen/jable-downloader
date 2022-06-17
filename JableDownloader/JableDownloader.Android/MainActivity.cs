@@ -1,9 +1,8 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using MediaManager;
 
 namespace JableDownloader.Droid
 {
@@ -19,6 +18,13 @@ namespace JableDownloader.Droid
 
             //啟用 FFImageLoading，用來顯示 SVG 圖片
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+
+            //啟用 Plugin.MediaManager，用來顯示 HLS 影片
+            CrossMediaManager.Current.Init(this);
+
+            //啟用 Popup Page
+            Rg.Plugins.Popup.Popup.Init(this);
+
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -26,6 +32,12 @@ namespace JableDownloader.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public override void OnBackPressed()
+        {
+            //Rg.Plugins.Popup.Popup.SendBackPressed 回傳 True 代表正在 Popup Page 內，否則就不是
+            Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace JableDownloader.ViewModels
     /// <summary>
     /// 用來方便在設定屬性後主動通知前端的基底類別
     /// </summary>
-    class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         /// <summary>
         /// 實作 INotifyPropertyChanged 所需的事件，用來通知 XAML 更新資料
