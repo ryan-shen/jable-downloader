@@ -1,20 +1,20 @@
-﻿using JableDownloader.ViewModels;
-using MediaManager;
+﻿using MediaManager;
+using MediaManager.Forms;
 using MediaManager.Playback;
 using MediaManager.Player;
-using Rg.Plugins.Popup.Pages;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace JableDownloader.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MoviePreviewerPopupPage : PopupPage
+    public partial class MoviePlayerPage : ContentPage
     {
-        public MoviePreviewerPopupPage(MovieViewModel movie)
+        public MoviePlayerPage(string m3u8Url)
         {
             InitializeComponent();
-
-            BindingContext = movie;
+            
+            VideoView.Source = m3u8Url;
 
             CrossMediaManager.Current.StateChanged += async (object sender, StateChangedEventArgs e) =>
             {

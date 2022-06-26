@@ -25,18 +25,33 @@
     <StackLayout VerticalOptions="Center" 
                  HorizontalOptions="Center"
                  BackgroundColor="White">
-        <Label Text="{Binding Name}" FontSize="Title"/>
-        <mm:VideoView VerticalOptions="Center" 
-                      HeightRequest="200"
-                      Margin="0, 20, 0, 20"
-                      Source="{Binding PreviewUrl}" 
-                      ShowControls="False"
-                      Repeat="All"
-                      AutoPlay="True"/>
+        <Label Text="{Binding Name}" FontSize="24"/>
+        <AbsoluteLayout>
+            <mm:VideoView VerticalOptions="Center" 
+                          HeightRequest="200"
+                          Margin="0, 20, 0, 20"
+                          Source="{Binding PreviewUrl}" 
+                          ShowControls="False"
+                          Repeat="All"
+                          AutoPlay="True"/>
+            <ActivityIndicator x:Name="VideoIndicator"
+                               Color="Gray"
+                               AbsoluteLayout.LayoutBounds="0.5, 0.5"
+                               AbsoluteLayout.LayoutFlags="PositionProportional"/>
+        </AbsoluteLayout>
         <FlexLayout JustifyContent="SpaceEvenly">
-            <Button Text="View" WidthRequest="120" Margin="0, 0, 0, 20" CornerRadius="15"></Button>
-            <Button Text="Download" WidthRequest="120" Margin="0, 0, 0, 20" CornerRadius="15"></Button>
+            <Button Text="Play" 
+                    Command="{Binding Play}" 
+                    WidthRequest="120" 
+                    Margin="0, 0, 0, 20" 
+                    CornerRadius="15"></Button>
+            <Button Text="Download" 
+                    Command="{Binding Download}" 
+                    WidthRequest="120"
+                    Margin="0, 0, 0, 20" 
+                    CornerRadius="15"></Button>
         </FlexLayout>
+        <ProgressBar Progress="{Binding DownloadProgress}" IsVisible="{Binding IsDownloading}"/>
     </StackLayout>
 
 </pages:PopupPage>
