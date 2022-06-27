@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:JableDownloader.ViewModels"
              xmlns:ff="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             x:Class="JableDownloader.Pages.ActressPage"
+             x:Class="JableDownloader.Pages.ActressListPage"
              x:Name="ContentPage">
 
     <ContentPage.BindingContext>
