@@ -1,6 +1,6 @@
 ﻿namespace JableDownloader.ViewModels
 {
-    internal class ActressViewModel : ViewModelBase
+    public class ActressViewModel : ViewModelBase
     {
         private string _name;
         private string _movieCountText;

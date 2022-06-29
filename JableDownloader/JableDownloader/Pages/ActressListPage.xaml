@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:JableDownloader.ViewModels"
+             xmlns:converter="clr-namespace:JableDownloader.Converters"
              xmlns:ff="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="JableDownloader.Pages.ActressListPage"
              x:Name="ContentPage">
@@ -10,7 +11,11 @@
         <local:ActressListViewModel/>
     </ContentPage.BindingContext>
 
-    <CollectionView ItemsSource="{Binding Actresses}">
+    <ContentPage.Resources>
+        <converter:PageUnitToColorConverter x:Key="PageUnitToColorConverter"/>
+    </ContentPage.Resources>
+
+    <CollectionView ItemsSource="{Binding Pager.Datas}">
         <!--資料的排列方式，Orientation 為 Vertical 表示先橫再直，Horizontal 表示先直再橫-->
         <!--Span 表示先的那個方向可以容納幾筆資料 (例如對 Vertical 設 Span = 3 就是橫的可以放 3 筆-->
         <CollectionView.ItemsLayout>
@@ -44,6 +49,27 @@
                 </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>
+
+        <CollectionView.Footer>
+            <FlexLayout Direction="Row" 
+                        JustifyContent="SpaceEvenly" 
+                        AlignItems="Center"
+                        HeightRequest="50"
+                        BindableLayout.ItemsSource="{Binding Pager.PageUnits}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Button Text="{Binding Text}" Command="{Binding Action}" CommandParameter="{Binding Page}">
+                            <Button.BackgroundColor>
+                                <MultiBinding Converter="{StaticResource PageUnitToColorConverter}">
+                                    <Binding Path="."/>
+                                    <Binding Path="BindingContext.Pager.CurrentPage" Source="{Reference ContentPage}"/>
+                                </MultiBinding>
+                            </Button.BackgroundColor>
+                        </Button>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </CollectionView.Footer>
     </CollectionView>
 
 </ContentPage>
