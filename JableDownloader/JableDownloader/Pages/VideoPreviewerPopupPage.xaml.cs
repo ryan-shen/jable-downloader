@@ -8,13 +8,13 @@ using Xamarin.Forms.Xaml;
 namespace JableDownloader.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MoviePreviewerPopupPage : PopupPage
+    public partial class VideoPreviewerPopupPage : PopupPage
     {
-        public MoviePreviewerPopupPage(MovieViewModel movie)
+        public VideoPreviewerPopupPage(VideoViewModel video)
         {
             InitializeComponent();
 
-            BindingContext = movie;
+            BindingContext = video;
 
             CrossMediaManager.Current.StateChanged += async (object sender, StateChangedEventArgs e) =>
             {

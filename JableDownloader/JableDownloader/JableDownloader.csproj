@@ -41,11 +41,11 @@
     <Compile Update="Pages\MenuPage.xaml.cs">
       <DependentUpon>MenuPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Pages\MovieListPage.xaml.cs">
-      <DependentUpon>MovieListPage.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Pages\HlsPlayerPage.xaml.cs">
       <DependentUpon>HlsPlayerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\VideoPreviewerPopupPage.xaml.cs">
+      <DependentUpon>VideoPreviewerPopupPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -59,13 +59,19 @@
     <EmbeddedResource Update="Pages\MenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\MovieListPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Pages\HlsPlayerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Pages\MoviePreviewerPopupPage.xaml">
+    <EmbeddedResource Update="Pages\VideoPreviewerPopupPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PopularVideoListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\VideoCrawlerTabbedPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\VideoListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

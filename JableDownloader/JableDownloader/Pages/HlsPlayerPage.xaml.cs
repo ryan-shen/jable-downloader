@@ -8,9 +8,9 @@ using Xamarin.Forms.Xaml;
 namespace JableDownloader.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MoviePlayerPage : ContentPage
+    public partial class HlsPlayerPage : ContentPage
     {
-        public MoviePlayerPage(string m3u8Url)
+        public HlsPlayerPage(string m3u8Url)
         {
             InitializeComponent();
             

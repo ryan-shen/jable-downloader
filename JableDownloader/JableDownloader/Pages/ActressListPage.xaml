@@ -1,19 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:JableDownloader.ViewModels"
-             xmlns:converter="clr-namespace:JableDownloader.Converters"
+             xmlns:model="clr-namespace:JableDownloader.ViewModels"
              xmlns:ff="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="JableDownloader.Pages.ActressListPage"
-             x:Name="ContentPage">
-
-    <ContentPage.BindingContext>
-        <local:ActressListViewModel/>
-    </ContentPage.BindingContext>
-
-    <ContentPage.Resources>
-        <converter:PageUnitToColorConverter x:Key="PageUnitToColorConverter"/>
-    </ContentPage.Resources>
+             x:Name="ContentPage"
+             x:DataType="model:ActressListViewModel">
 
     <CollectionView ItemsSource="{Binding Pager.Datas}">
         <!--資料的排列方式，Orientation 為 Vertical 表示先橫再直，Horizontal 表示先直再橫-->
@@ -25,7 +17,7 @@
         <!--絕對不要在 DataTemplate 裡面包 ViewCell，否則會導致 Specified cast is not valid 錯誤-->
         <!--原因為 CollectionView、Grid 都不像 ListView 一樣有 Cell 的概念-->
         <CollectionView.ItemTemplate>
-            <DataTemplate>
+            <DataTemplate x:DataType="model:ActressViewModel">
                 <!--每筆資料都各自以表格排版自己的詳細資料-->
                 <Grid HeightRequest="80">
                     <Grid.RowDefinitions>
@@ -45,7 +37,7 @@
                     <!-- ff:SvgCachedImage 的 Source 可以接收非 SVG 的路徑，因此 PNG 或 JPG 都可顯示 -->
                     <ff:SvgCachedImage Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding ImageUrl}" />
                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding MovieCountText}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding VideoCountText}"/>
                 </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>
@@ -57,7 +49,7 @@
                         HeightRequest="50"
                         BindableLayout.ItemsSource="{Binding Pager.PageUnits}">
                 <BindableLayout.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="model:PageUnit">
                         <Button Text="{Binding Text}" Command="{Binding Action}" CommandParameter="{Binding Page}">
                             <Button.BackgroundColor>
                                 <MultiBinding Converter="{StaticResource PageUnitToColorConverter}">

@@ -3,7 +3,7 @@
     public class ActressViewModel : ViewModelBase
     {
         private string _name;
-        private string _movieCountText;
+        private string _videoCountText;
         private string _imageUrl;
         private string _url;
 
@@ -13,10 +13,10 @@
             set { SetProperty(ref _name, value); }
         }
 
-        public string MovieCountText
+        public string VideoCountText
         {
-            get { return _movieCountText; }
-            set { SetProperty(ref _movieCountText, value); }
+            get { return _videoCountText; }
+            set { SetProperty(ref _videoCountText, value); }
         }
 
         public string ImageUrl

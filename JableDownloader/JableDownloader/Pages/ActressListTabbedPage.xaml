@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="JableDownloader.Pages.ActressListTabbedPage"
             xmlns:pages="clr-namespace:JableDownloader.Pages">
-    <pages:ActressListPage Title="名稱順序" />
-    <pages:ActressListPage Title="熱度優先" />
-    <pages:ActressListPage Title="最多影片" />
+    <pages:ActressListPage Title="名稱順序" x:Name="PageOrderByName" />
+    <pages:ActressListPage Title="熱度優先" x:Name="PageOrderByMostPopular" />
+    <pages:ActressListPage Title="最多影片" x:Name="PageOrderByMostVideos" />
 </TabbedPage>

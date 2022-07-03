@@ -1,4 +1,5 @@
 ﻿using System;
+using JableDownloader.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,7 +23,8 @@ namespace JableDownloader.Pages
             if (item == null)
                 return;
 
-            var page = (Page)Activator.CreateInstance(item.TargetType);
+            var page = item.TargetType == typeof(VideoCrawlerTabbedPage) ? 
+                (Page)Activator.CreateInstance(item.TargetType, new JableService()) : (Page)Activator.CreateInstance(item.TargetType);
             page.Title = item.Title;
 
             Detail = new NavigationPage(page);

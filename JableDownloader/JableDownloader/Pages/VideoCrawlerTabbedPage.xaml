@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="JableDownloader.Pages.VideoCrawlerTabbedPage"
+            xmlns:page="clr-namespace:JableDownloader.Pages">
+    <page:VideoListPage Title="最新影片" x:Name="RecentVideoListPage" />
+    <page:VideoListPage Title="熱門影片" x:Name="PopularVideoListPage" />
+</TabbedPage>

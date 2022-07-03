@@ -11,11 +11,12 @@ namespace JableDownloader.ViewModels
     {
         private IEnumerable<T> _datas;
 
-        public Pager(Func<int, Task<Pager<T>>> loadPage)
+        public Pager(IEnumerable<T> datas, int currentPage, int pageCount, Func<int, Task<Pager<T>>> loadPage)
         {
+            Datas = datas;
+            CurrentPage = currentPage;
+            PageCount = pageCount;
             PageUnits = GetPageUnits(loadPage);
-
-            PageUnits.First().Action.Execute(1);
         }
 
         public int CurrentPage { get; set; }
