@@ -11,11 +11,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\Font Awesome 6 Brands-Regular-400.otf" />
+    <None Remove="Resources\Fonts\Font Awesome 6 Free-Regular-400.otf" />
+    <None Remove="Resources\Fonts\Font Awesome 6 Free-Solid-900.otf" />
     <None Remove="Resources\Images\icon_eye.svg" />
     <None Remove="Resources\Images\icon_heart_inline.svg" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\Font Awesome 6 Brands-Regular-400.otf" />
+    <EmbeddedResource Include="Resources\Fonts\Font Awesome 6 Free-Regular-400.otf" />
+    <EmbeddedResource Include="Resources\Fonts\Font Awesome 6 Free-Solid-900.otf" />
     <EmbeddedResource Include="Resources\Images\icon_eye.svg" />
     <EmbeddedResource Include="Resources\Images\icon_heart_inline.svg" />
   </ItemGroup>
