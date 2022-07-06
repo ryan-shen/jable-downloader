@@ -24,8 +24,8 @@
 
     <StackLayout VerticalOptions="Center" 
                  HorizontalOptions="Center"
-                 BackgroundColor="White">
-        <Label Text="{Binding Name}" FontSize="24"/>
+                 BackgroundColor="{AppThemeBinding Light={Static Color.White}, Dark={Static Color.Black}}">
+        <Label Text="{Binding Name}" FontSize="Title"/>
         <AbsoluteLayout>
             <mm:VideoView VerticalOptions="Center" 
                           HeightRequest="200"
