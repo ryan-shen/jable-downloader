@@ -12,7 +12,7 @@ namespace JableDownloader.Services
 {
     public class JableService : IVideoCrawlerService
     {
-        public HttpClient Client { get; set; }
+        private readonly HttpClient _client;
 
         public JableService()
         {
@@ -25,12 +25,17 @@ namespace JableDownloader.Services
             //不知為啥要設定第二次才有用
             client.DefaultRequestHeaders.Add("User-Agent", "Chrome/84.0.4147.135");
 
-            Client = client;
+            _client = client;
+        }
+
+        public string GetSiteName()
+        {
+            return "Jable";
         }
 
         public async Task<Pager<ActressViewModel>> GetActresses(string sortBy, int page = 1)
         {
-            var uriBuilder = new UriBuilder(new Uri(Client.BaseAddress, "models/"));
+            var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress, "models/"));
             NameValueCollection queryString = HttpUtility.ParseQueryString(uriBuilder.Query);
             queryString["mode"] = "async";
             queryString["function"] = "get_block";
@@ -39,7 +44,7 @@ namespace JableDownloader.Services
             queryString["from"] = page.ToString(); //第幾頁
             queryString["_"] = DateTime.Now.Ticks.ToString();
             uriBuilder.Query = queryString.ToString();
-            var result = await Client.GetAsync(uriBuilder.ToString());
+            var result = await _client.GetAsync(uriBuilder.ToString());
 
             var htmlContent = await result.Content.ReadAsStringAsync();
             HtmlDocument htmlDocument = new HtmlDocument();
@@ -63,7 +68,7 @@ namespace JableDownloader.Services
 
         public async Task<Pager<VideoViewModel>> GetVideos(string url, int page = 1)
         {
-            var result = await Client.GetAsync(url);
+            var result = await _client.GetAsync(url);
 
             var htmlContent = await result.Content.ReadAsStringAsync();
             HtmlDocument htmlDocument = new HtmlDocument();
@@ -92,7 +97,7 @@ namespace JableDownloader.Services
 
         public async Task<Pager<VideoViewModel>> GetRecentVideos(int page = 1)
         {
-            var uriBuilder = new UriBuilder(new Uri(Client.BaseAddress, "latest-updates/"));
+            var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress, "latest-updates/"));
             NameValueCollection queryString = HttpUtility.ParseQueryString(uriBuilder.Query);
             queryString["mode"] = "async";
             queryString["function"] = "get_block";
@@ -101,7 +106,7 @@ namespace JableDownloader.Services
             queryString["from"] = page.ToString(); //第幾頁
             queryString["_"] = DateTime.Now.Ticks.ToString();
             uriBuilder.Query = queryString.ToString();
-            var result = await Client.GetAsync(uriBuilder.ToString());
+            var result = await _client.GetAsync(uriBuilder.ToString());
 
             var htmlContent = await result.Content.ReadAsStringAsync();
             HtmlDocument htmlDocument = new HtmlDocument();
@@ -111,8 +116,9 @@ namespace JableDownloader.Services
                 .SelectNodes("div");
 
             HtmlNode pageNode = htmlDocument.DocumentNode.SelectSingleNode("(//ul[@class='pagination']/li[@class='page-item']/a[@data-parameters])[last()]");
-            string dataParameters = pageNode.Attributes["data-parameters"].Value;
-            int pageCount = Convert.ToInt32(Regex.Match(dataParameters, @"(?<=from:)\d+").Value);
+            string dataParameters = pageNode?.Attributes["data-parameters"].Value;
+            int pageCount = string.IsNullOrEmpty(dataParameters) ?
+                1 : Convert.ToInt32(Regex.Match(dataParameters, @"(?<=from:)\d+").Value);
 
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
@@ -129,7 +135,7 @@ namespace JableDownloader.Services
 
         public async Task<Pager<VideoViewModel>> GetPopularVideos(int page = 1)
         {
-            var uriBuilder = new UriBuilder(new Uri(Client.BaseAddress, "hot/"));
+            var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress, "hot/"));
             NameValueCollection queryString = HttpUtility.ParseQueryString(uriBuilder.Query);
             queryString["mode"] = "async";
             queryString["function"] = "get_block";
@@ -138,7 +144,7 @@ namespace JableDownloader.Services
             queryString["from"] = page.ToString(); //第幾頁
             queryString["_"] = DateTime.Now.Ticks.ToString();
             uriBuilder.Query = queryString.ToString();
-            var result = await Client.GetAsync(uriBuilder.ToString());
+            var result = await _client.GetAsync(uriBuilder.ToString());
 
             var htmlContent = await result.Content.ReadAsStringAsync();
             HtmlDocument htmlDocument = new HtmlDocument();
@@ -148,8 +154,9 @@ namespace JableDownloader.Services
                 .SelectNodes("div");
 
             HtmlNode pageNode = htmlDocument.DocumentNode.SelectSingleNode("(//ul[@class='pagination']/li[@class='page-item']/a[@data-parameters])[last()]");
-            string dataParameters = pageNode.Attributes["data-parameters"].Value;
-            int pageCount = Convert.ToInt32(Regex.Match(dataParameters, @"(?<=from:)\d+").Value);
+            string dataParameters = pageNode?.Attributes["data-parameters"].Value;
+            int pageCount = string.IsNullOrEmpty(dataParameters) ?
+                1 : Convert.ToInt32(Regex.Match(dataParameters, @"(?<=from:)\d+").Value);
 
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
@@ -162,6 +169,46 @@ namespace JableDownloader.Services
                 HeartCountText = node.SelectSingleNode(".//p[@class='sub-title']/svg[2]").NextSibling.InnerText,
                 GetVideoUrl = GetVideoUrl
             }).ToList(), page, pageCount, GetPopularVideos);
+        }
+
+        public async Task<Pager<VideoViewModel>> SearchVideos(string query, int page = 1)
+        {
+            var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress, $@"search/{query}"));
+            NameValueCollection queryString = HttpUtility.ParseQueryString(uriBuilder.Query);
+            queryString["mode"] = "async";
+            queryString["function"] = "get_block";
+            queryString["block_id"] = "list_videos_videos_list_search_result";
+            queryString["q"] = query;
+            queryString["sort_by"] = "";
+            queryString["from_videos"] = page.ToString(); //第幾頁
+            queryString["from_albums"] = page.ToString(); //第幾頁
+            queryString["_"] = DateTime.Now.Ticks.ToString();
+            uriBuilder.Query = queryString.ToString();
+            var result = await _client.GetAsync(uriBuilder.ToString().Replace("?", "/?"));
+
+            var htmlContent = await result.Content.ReadAsStringAsync();
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(htmlContent);
+            var videoNodes = htmlDocument.DocumentNode
+                .SelectSingleNode("//div[@id='list_videos_videos_list_search_result']/div[@class='container']/section/div")
+                .SelectNodes("div");
+
+            HtmlNode pageNode = htmlDocument.DocumentNode.SelectSingleNode("(//ul[@class='pagination']/li[@class='page-item']/a[@data-parameters])[last()]");
+            string dataParameters = pageNode?.Attributes["data-parameters"].Value;
+            int pageCount = string.IsNullOrEmpty(dataParameters) ?
+                1 : Convert.ToInt32(Regex.Match(dataParameters, @"(?<=from_videos\+from_albums:)\d+").Value);
+
+            return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
+            {
+                Name = node.SelectSingleNode(".//div[@class='detail']/h6[@class='title']").InnerText,
+                ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-src", ""),
+                PreviewUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-preview", ""),
+                Url = node.SelectSingleNode(".//a").GetAttributeValue("href", ""),
+                Duration = node.SelectSingleNode(".//span[@class='label']").InnerText,
+                WatchCountText = node.SelectSingleNode(".//p[@class='sub-title']/svg[1]").NextSibling.InnerText,
+                HeartCountText = node.SelectSingleNode(".//p[@class='sub-title']/svg[2]").NextSibling.InnerText,
+                GetVideoUrl = GetVideoUrl
+            }).ToList(), page, pageCount, (p) => SearchVideos(query, p));
         }
 
         public async Task<string> GetVideoUrl(string url)

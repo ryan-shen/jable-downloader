@@ -2,15 +2,19 @@
 <FlyoutPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="JableDownloader.Pages.MainPage"
-            xmlns:pages="clr-namespace:JableDownloader.Pages">
+            xmlns:pages="clr-namespace:JableDownloader.Pages"
+            xmlns:font="clr-namespace:FontAwesome">
+
+    <FlyoutPage.ToolbarItems>
+        <ToolbarItem x:Name="SearchIcon" Order="Primary">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="FAS" Glyph="{Static font:FontAwesomeIcons.MagnifyingGlass}" Size="Large"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </FlyoutPage.ToolbarItems>
+
     <FlyoutPage.Flyout>
         <pages:MenuPage x:Name="FlyoutPage"/>
     </FlyoutPage.Flyout>
-    <FlyoutPage.Detail>
-        <NavigationPage>
-            <x:Arguments>
-                <pages:ActressListTabbedPage Title="選女優"/>
-            </x:Arguments>
-        </NavigationPage>
-    </FlyoutPage.Detail>
+
 </FlyoutPage>

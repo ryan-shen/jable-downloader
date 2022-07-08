@@ -1,4 +1,5 @@
 ﻿using System;
+using JableDownloader.Services;
 
 namespace JableDownloader.Pages
 {
@@ -9,5 +10,7 @@ namespace JableDownloader.Pages
         public string Title { get; set; }
 
         public Type TargetType { get; set; }
+
+        public Type ServiceType { get; set; }
     }
 }

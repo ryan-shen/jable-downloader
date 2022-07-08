@@ -9,11 +9,15 @@ namespace JableDownloader.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class VideoCrawlerTabbedPage : TabbedPage
     {
+        private readonly IVideoCrawlerService _videoCrawlerService;
+
         public VideoCrawlerTabbedPage(IVideoCrawlerService service)
         {
             InitializeComponent();
 
-            _ = SetBindingContext(service);
+            _videoCrawlerService = service;
+
+            _ = SetBindingContext();
 
             //service.GetRecentVideos().ContinueWith((result) =>
             //{
@@ -22,16 +26,16 @@ namespace JableDownloader.Pages
             //});
         }
 
-        public async Task SetBindingContext(IVideoCrawlerService service)
+        public async Task SetBindingContext()
         {
             RecentVideoListPage.BindingContext = new VideoListViewModel
             {
-                Pager = await service.GetRecentVideos()
+                Pager = await _videoCrawlerService.GetRecentVideos()
             };
 
             PopularVideoListPage.BindingContext = new VideoListViewModel
             {
-                Pager = await service.GetPopularVideos()
+                Pager = await _videoCrawlerService.GetPopularVideos()
             };
         }
     }
