@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:JableDownloader.ViewModels"
+             x:Class="JableDownloader.Pages.SettingPage">
+    
+    <ContentPage.BindingContext>
+        <model:SettingViewModel/>
+    </ContentPage.BindingContext>
+    
+    <StackLayout>
+        <TableView Intent="Settings" 
+                   HeightRequest="350" 
+                   VerticalOptions="Start">
+            <TableRoot>
+                <TableSection>
+                    <SwitchCell Text="顯示所有網站" On="{Binding ShowOtherSites}" />
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </StackLayout>
+</ContentPage>
