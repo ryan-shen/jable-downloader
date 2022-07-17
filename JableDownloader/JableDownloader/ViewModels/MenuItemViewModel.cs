@@ -21,9 +21,8 @@ namespace JableDownloader.ViewModels
             } : new[]
             {
                 new MenuItem { Id = 0, Title = "Jable", TargetType = typeof(VideoCrawlerTabbedPage), ServiceType = typeof(JableService) },
-                new MenuItem { Id = 1, Title = "JavFull", TargetType = typeof(VideoCrawlerTabbedPage), ServiceType = typeof(JableService) },
-                new MenuItem { Id = 2, Title = "JavHDPorn", TargetType = typeof(VideoCrawlerTabbedPage), ServiceType = typeof(JableService) },
-                new MenuItem { Id = 3, Title = "設定", TargetType = typeof(SettingPage) },
+                new MenuItem { Id = 1, Title = "JavFull", TargetType = typeof(VideoCrawlerTabbedPage), ServiceType = typeof(JavFullService) },
+                new MenuItem { Id = 2, Title = "設定", TargetType = typeof(SettingPage) },
             });
         }
     }
