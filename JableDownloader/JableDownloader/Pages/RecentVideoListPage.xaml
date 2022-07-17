@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<page:VideoListPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="JableDownloader.Pages.RecentVideoListPage"
+             xmlns:page="clr-namespace:JableDownloader.Pages">
+</page:VideoListPage>

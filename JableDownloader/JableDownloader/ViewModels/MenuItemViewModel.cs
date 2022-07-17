@@ -15,8 +15,8 @@ namespace JableDownloader.ViewModels
                 new[]
             {
                 new MenuItem { Id = 0, Title = "按女優", TargetType = typeof(ActressListTabbedPage) },
-                new MenuItem { Id = 1, Title = "新片優先", TargetType = typeof(VideoListPage) },
-                new MenuItem { Id = 2, Title = "熱度優先", TargetType = typeof(VideoListPage) },
+                new MenuItem { Id = 1, Title = "新片優先", TargetType = typeof(RecentVideoListPage) },
+                new MenuItem { Id = 2, Title = "熱度優先", TargetType = typeof(PopularVideoListTabbedPage) },
                 new MenuItem { Id = 3, Title = "設定", TargetType = typeof(SettingPage) },
             } : new[]
             {

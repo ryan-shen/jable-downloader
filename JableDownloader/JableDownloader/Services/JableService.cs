@@ -79,9 +79,9 @@ namespace JableDownloader.Services
 
             HtmlNode pageNode = htmlDocument.DocumentNode.SelectSingleNode("(//ul[@class='pagination']/li[@class='page-item']/a[@data-parameters])[last()]");
             string dataParameters = pageNode?.Attributes["data-parameters"].Value;
-            int pageCount = string.IsNullOrEmpty(dataParameters) ? 
+            int pageCount = string.IsNullOrEmpty(dataParameters) ?
                 1 : Convert.ToInt32(Regex.Match(dataParameters, @"(?<=from:)\d+").Value);
-            
+
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
                 Name = node.SelectSingleNode(".//div[@class='detail']/h6[@class='title']").InnerText,
@@ -135,12 +135,17 @@ namespace JableDownloader.Services
 
         public async Task<Pager<VideoViewModel>> GetPopularVideos(int page = 1)
         {
+            return await GetPopularVideos("video_viewed_week", page);
+        }
+
+        public async Task<Pager<VideoViewModel>> GetPopularVideos(string sortBy, int page = 1)
+        {
             var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress, "hot/"));
             NameValueCollection queryString = HttpUtility.ParseQueryString(uriBuilder.Query);
             queryString["mode"] = "async";
             queryString["function"] = "get_block";
             queryString["block_id"] = "list_videos_common_videos_list";
-            queryString["sort_by"] = "video_viewed_week";
+            queryString["sort_by"] = sortBy; //video_viewed、video_viewed_month、video_viewed_week、video_viewed_today
             queryString["from"] = page.ToString(); //第幾頁
             queryString["_"] = DateTime.Now.Ticks.ToString();
             uriBuilder.Query = queryString.ToString();
@@ -168,7 +173,7 @@ namespace JableDownloader.Services
                 WatchCountText = node.SelectSingleNode(".//p[@class='sub-title']/svg[1]").NextSibling.InnerText,
                 HeartCountText = node.SelectSingleNode(".//p[@class='sub-title']/svg[2]").NextSibling.InnerText,
                 GetVideoUrl = GetVideoUrl
-            }).ToList(), page, pageCount, GetPopularVideos);
+            }).ToList(), page, pageCount, (p) => GetPopularVideos(sortBy, p));
         }
 
         public async Task<Pager<VideoViewModel>> SearchVideos(string query, int page = 1)
