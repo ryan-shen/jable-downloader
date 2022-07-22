@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -61,19 +60,17 @@ namespace JableDownloader.Services
             int fileCount = FileNames.Count();
             var index = 0;
 
-            var bytes = new List<byte>();
+            var plainBytes = new List<byte>();
             foreach (var fileName in FileNames)
             {
                 HttpResponseMessage task = await DownloadFileAsync(fileName);
 
                 onSegmentDownloaded(++index, fileCount);
 
-                bytes.AddRange(await task.Content.ReadAsByteArrayAsync());
+                plainBytes.AddRange(Decrypt(await task.Content.ReadAsByteArrayAsync()));
             }
 
-            //解密
-            byte[] plainBytes = Decrypt(bytes.ToArray());
-            File.WriteAllBytes(downloadPath, plainBytes);
+            File.WriteAllBytes(downloadPath, plainBytes.ToArray());
         }
 
         /// <summary>
@@ -85,23 +82,23 @@ namespace JableDownloader.Services
             int fileCount = FileNames.Count();
             int index = 0;
 
-            var tasks = new List<Task<HttpResponseMessage>>();
+            var tasks = new List<Task<byte[]>>();
             foreach (var fileName in FileNames)
             {
-                Task<HttpResponseMessage> task = DownloadFileAsync(fileName).ContinueWith((result) =>
+                Task<byte[]> task = DownloadFileAsync(fileName).ContinueWith((result) =>
                 {
                     onSegmentDownloaded(++index, fileCount);
-                    
-                    return result.Result;
+
+                    return Decrypt(result.Result.Content.ReadAsByteArrayAsync().Result);
                 });
 
                 tasks.Add(task);
             }
             await Task.WhenAll(tasks);
-            var bytes = tasks.SelectMany(x => x.Result.Content.ReadAsByteArrayAsync().Result).ToArray();
 
             //解密
-            byte[] plainBytes = Decrypt(bytes);
+            byte[] plainBytes = tasks.SelectMany(x => x.Result).ToArray();
+
             File.WriteAllBytes(downloadPath, plainBytes);
         }
 
@@ -143,7 +140,7 @@ namespace JableDownloader.Services
 
         private byte[] Decrypt(byte[] bytes)
         {
-            if(Key == null || !Key.Any())
+            if (Key == null || !Key.Any())
             {
                 return bytes;
             }
@@ -155,22 +152,6 @@ namespace JableDownloader.Services
 
             var decryptor = aes.CreateDecryptor();
             return decryptor.TransformFinalBlock(bytes, 0, bytes.Length);
-        }
-    }
-
-    public class TypeConverter
-    {
-        public static byte[] ToByteArray(string byteString)
-        {
-            string escapedString = Regex.Replace(byteString, @"\s", "");
-            var bytes = new List<byte>();
-
-            for (int i = 0; i < escapedString.Length; i += 2)
-            {
-                bytes.Add(byte.Parse($"{escapedString[i]}{escapedString[i + 1]}", NumberStyles.HexNumber));
-            }
-
-            return bytes.ToArray();
         }
     }
 }
