@@ -25,6 +25,7 @@
                FontSize="Title" 
                HorizontalOptions="Center"/>
         <SearchBar Keyboard="Text" 
+                   TextColor="{AppThemeBinding Light={Static Color.Black}, Dark={Static Color.White}}"
                    SearchButtonPressed="SearchBar_SearchButtonPressed"/>
     </StackLayout>
 </pages:PopupPage>
