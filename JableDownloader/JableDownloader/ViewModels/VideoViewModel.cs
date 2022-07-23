@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using JableDownloader.Pages;
 using JableDownloader.Services;
-using MediaManager;
+using Plugin.LocalNotification;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
@@ -14,9 +12,7 @@ namespace JableDownloader.ViewModels
 {
     public class VideoViewModel : ViewModelBase
     {
-        private IFileService _fileService = DependencyService.Get<IFileService>();
-        private double _downloadProgress;
-        private bool _isDownloading;
+        private readonly IFileService _fileService = DependencyService.Get<IFileService>();
 
         public VideoViewModel()
         {
@@ -28,16 +24,46 @@ namespace JableDownloader.ViewModels
 
             Download = new Command(async () =>
             {
-                await Application.Current.MainPage.DisplayAlert("", "Download this video?", "OK", "Cancel");
-
-                IsDownloading = true;
-                //test url: https://jable.tv/videos/heyzo-2556/
-                await new HlsDownloader(await GetVideoUrl(Url)).SequenceDownloadAsync(Path.Combine(_fileService.GetDownloadDirectory(), $"{Name}.mp4"), (index, total) =>
+                try
                 {
-                    DownloadProgress = index * 1.0 / total;
-                });
-                IsDownloading = false;
-                await Application.Current.MainPage.DisplayAlert("", $"{Name} has been successfully downloaded", "OK");
+                    bool download = await Application.Current.MainPage.DisplayAlert("", "Download this video?", "OK", "Cancel");
+
+                    if (!download)
+                    {
+                        return;
+                    }
+
+                    await new HlsDownloader(await GetVideoUrl(Url)).SequenceDownloadAsync(Path.Combine(_fileService.GetDownloadDirectory(), $"{Name}.mp4"), (index, total) =>
+                    {
+                        var notification = new NotificationRequest
+                        {
+                            NotificationId = Name.GetHashCode(), //推播 ID，一樣的 ID 在重複推播時會覆蓋前一個，
+                            Title = Name,
+                            Description = $"{index}/{total}",
+                            CategoryType = NotificationCategoryType.Progress, //推播類別，給作業系統看的
+                            Android = new Plugin.LocalNotification.AndroidOption.AndroidOptions
+                            {
+                                Ongoing = true, //推播位置在更上面且無法被取消
+                                ProgressBarMax = total, //進度條最大值 (iOS 沒有進度條)，當進度值滿了不會自動取消，必須手動取消
+                                ProgressBarProgress = index, //進度條當前進度，如果要讓進度條變動就必須再執行一次 Show()
+                                IsProgressBarIndeterminate = false //是否為不確定進度的進度條，必須設 false 進度值才有效
+                            }
+                        };
+
+                        //執行推播
+                        NotificationCenter.Current.Show(notification);
+                    });
+
+                    NotificationCenter.Current.Clear(Name.GetHashCode());
+                    await Application.Current.MainPage.DisplayAlert("", $"{Name} has been successfully downloaded", "OK");
+                }
+                catch(Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+
+                    NotificationCenter.Current.Clear(Name.GetHashCode());
+                    await Application.Current.MainPage.DisplayAlert("", ex.Message, "OK");
+                }
             });
         }
 
@@ -53,17 +79,5 @@ namespace JableDownloader.ViewModels
         public string Duration { get; set; }
         public string WatchCountText { get; set; }
         public string HeartCountText { get; set; }
-
-        public double DownloadProgress
-        {
-            get { return _downloadProgress; }
-            set { SetProperty(ref _downloadProgress, value); }
-        }
-
-        public bool IsDownloading
-        {
-            get { return _isDownloading; }
-            set { SetProperty(ref _isDownloading, value); }
-        }
     }
 }

@@ -52,7 +52,6 @@
                         Margin="0, 0, 0, 20" 
                         CornerRadius="15"></Button>
             </FlexLayout>
-            <ProgressBar Progress="{Binding DownloadProgress}" IsVisible="{Binding IsDownloading}"/>
         </StackLayout>
     </ScrollView>
 

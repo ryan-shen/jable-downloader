@@ -30,9 +30,18 @@ namespace JableDownloader.iOS
             //啟用 Popup Page
             Rg.Plugins.Popup.Popup.Init();
 
+            //要求發送推播的權限，沒有要求的話會在第一次推播時要求
+            Plugin.LocalNotification.NotificationCenter.AskPermission();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
+        }
+
+        public override void WillEnterForeground(UIApplication uiApplication)
+        {
+            //啟用 Plugin.LocalNotification 的自訂事件功能
+            Plugin.LocalNotification.NotificationCenter.ResetApplicationIconBadgeNumber(uiApplication);
         }
     }
 }

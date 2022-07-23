@@ -3,6 +3,8 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using MediaManager;
+using Plugin.LocalNotification;
+using Android.Content;
 
 namespace JableDownloader.Droid
 {
@@ -25,6 +27,10 @@ namespace JableDownloader.Droid
             //啟用 Popup Page
             Rg.Plugins.Popup.Popup.Init(this);
 
+            //啟用 Plugin.LocalNotification 的自訂事件功能
+            NotificationCenter.CreateNotificationChannel();
+            NotificationCenter.NotifyNotificationTapped(Intent);
+
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -32,6 +38,14 @@ namespace JableDownloader.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            //啟用 Plugin.LocalNotification 的自訂事件功能
+            NotificationCenter.NotifyNotificationTapped(intent);
+
+            base.OnNewIntent(intent);
         }
 
         public override void OnBackPressed()
