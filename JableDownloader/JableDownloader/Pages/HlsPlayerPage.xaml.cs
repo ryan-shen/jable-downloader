@@ -7,6 +7,9 @@ using Xamarin.Forms.Xaml;
 
 namespace JableDownloader.Pages
 {
+    /// <summary>
+    /// HLS 影片播放頁面
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HlsPlayerPage : ContentPage
     {
@@ -35,7 +38,7 @@ namespace JableDownloader.Pages
 
         protected override async void OnDisappearing()
         {
-            //Because of MediaManager is singleton, it must be stopped before the next play for fear of the afterimage
+            //在關閉頁面時停止播放器，不然下次開啟時可能會看到上次播放的最後一個畫面
             await CrossMediaManager.Current.Stop();
 
             base.OnDisappearing();

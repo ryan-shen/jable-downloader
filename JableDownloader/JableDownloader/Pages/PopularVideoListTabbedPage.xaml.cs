@@ -6,6 +6,9 @@ using Xamarin.Forms.Xaml;
 
 namespace JableDownloader.Pages
 {
+    /// <summary>
+    /// 「熱度優先」頁面
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PopularVideoListTabbedPage : TabbedPage
     {
@@ -16,6 +19,10 @@ namespace JableDownloader.Pages
             _ = SetBindingContext();
         }
 
+        /// <summary>
+        /// 注入資料來源到底下的各個頁面
+        /// </summary>
+        /// <returns></returns>
         public async Task SetBindingContext()
         {
             var service = new JableService();

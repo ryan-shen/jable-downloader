@@ -1,8 +1,9 @@
-﻿using JableDownloader.Services.Interfaces;
+﻿using JableDownloader.iOS.Services;
+using JableDownloader.Services.Interfaces;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(JableDownloader.Droid.Services.FileService))]
-namespace JableDownloader.Droid.Services
+[assembly: Dependency(typeof(FileService))]
+namespace JableDownloader.iOS.Services
 {
     /// <summary>
     /// 用來存取手機檔案系統的介面
@@ -15,7 +16,7 @@ namespace JableDownloader.Droid.Services
         /// <returns></returns>
         public string GetDownloadDirectory()
         {
-            return Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryMovies).AbsolutePath;
+            return "";
         }
     }
 }

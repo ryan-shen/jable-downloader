@@ -6,6 +6,9 @@ using Xamarin.Forms.Xaml;
 
 namespace JableDownloader.Pages
 {
+    /// <summary>
+    /// 女優清單的 Tabbed Page
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ActressListTabbedPage : TabbedPage
     {
@@ -16,23 +19,27 @@ namespace JableDownloader.Pages
             _ = SetBindingContext();
         }
 
+        /// <summary>
+        /// 注入資料來源到底下的各個頁面
+        /// </summary>
+        /// <returns></returns>
         private async Task SetBindingContext()
         {
             var service = new JableService();
 
             PageOrderByName.BindingContext = new ActressListViewModel
             {
-                Pager = await service.GetActresses("title", 1)
+                Pager = await service.GetActresses("title")
             };
 
             PageOrderByMostPopular.BindingContext = new ActressListViewModel
             {
-                Pager = await service.GetActresses("avg_videos_popularity", 1)
+                Pager = await service.GetActresses("avg_videos_popularity")
             };
 
             PageOrderByMostVideos.BindingContext = new ActressListViewModel
             {
-                Pager = await service.GetActresses("total_videos", 1)
+                Pager = await service.GetActresses("total_videos")
             };
         }
     }

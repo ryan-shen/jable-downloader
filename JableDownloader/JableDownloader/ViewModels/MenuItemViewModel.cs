@@ -5,6 +5,9 @@ using JableDownloader.Services;
 
 namespace JableDownloader.ViewModels
 {
+    /// <summary>
+    /// 頁面左側 Menu 選單
+    /// </summary>
     internal class MenuItemViewModel : ViewModelBase
     {
         public ObservableCollection<MenuItem> MenuItems { get; set; }

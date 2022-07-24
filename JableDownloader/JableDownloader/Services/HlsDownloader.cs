@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace JableDownloader.Services
 {
+    /// <summary>
+    /// HLS 影片下載器
+    /// </summary>
     public class HlsDownloader
     {
         private HttpClient _client;
@@ -17,12 +20,11 @@ namespace JableDownloader.Services
         public byte[] Iv { get; private set; }
         public IEnumerable<string> FileNames { get; private set; }
 
-
         public HlsDownloader(string m3u8Url)
         {
             //取得 m3u8 檔案內容
             var m3u8Uri = new Uri(m3u8Url);
-            //Query string will be a part of m3u8FileName as well
+            //Query string 也會成為 m3u8FileName 的一部分
             var m3u8FileName = Regex.Match(m3u8Url, m3u8Uri.Segments[m3u8Uri.Segments.Length - 1] + ".*").Value;
             var baseUrl = m3u8Uri.AbsoluteUri.Replace(m3u8FileName, "");
 
@@ -52,7 +54,7 @@ namespace JableDownloader.Services
         }
 
         /// <summary>
-        /// 下載所有 .ts 檔
+        /// 下載所有 .ts 檔 (逐一下載)
         /// </summary>
         /// <returns></returns>
         public async Task SequenceDownloadAsync(string downloadPath, Action<int, int> onSegmentDownloaded)
@@ -74,7 +76,7 @@ namespace JableDownloader.Services
         }
 
         /// <summary>
-        /// 下載所有 .ts 檔
+        /// 下載所有 .ts 檔 (非同步同時下載)
         /// </summary>
         /// <returns></returns>
         public async Task DownloadAsync(string downloadPath, Action<int, int> onSegmentDownloaded)
@@ -103,6 +105,11 @@ namespace JableDownloader.Services
         }
 
         //TODO: 不知為啥沒有建立新執行緒
+        /// <summary>
+        /// 下載檔案
+        /// </summary>
+        /// <param name="fileName">檔案名稱</param>
+        /// <returns></returns>
         private async Task<HttpResponseMessage> DownloadFileAsync(string fileName)
         {
             HttpResponseMessage response;

@@ -6,6 +6,9 @@ using Xamarin.Forms;
 
 namespace JableDownloader.Converters
 {
+    /// <summary>
+    /// 用來強調當前所在的頁數顏色
+    /// </summary>
     internal class PageUnitToColorConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

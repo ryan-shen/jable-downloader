@@ -5,6 +5,9 @@ using Xamarin.Forms.Xaml;
 
 namespace JableDownloader.Pages
 {
+    /// <summary>
+    /// 「新片優先」頁面
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RecentVideoListPage : VideoListPage
     {
@@ -15,6 +18,10 @@ namespace JableDownloader.Pages
             _ = SetBindingContext();
         }
 
+        /// <summary>
+        /// 綁定資料來源
+        /// </summary>
+        /// <returns></returns>
         public async Task SetBindingContext()
         {
             var service = new JableService();

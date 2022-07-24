@@ -1,18 +1,22 @@
 ﻿using System.Windows.Input;
 using JableDownloader.Pages;
-using JableDownloader.Services;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
 namespace JableDownloader.ViewModels
 {
+    /// <summary>
+    /// 影片清單
+    /// </summary>
     internal class VideoListViewModel : ViewModelBase
     {
+        #region Private Fields
         private Pager<VideoViewModel> _pager;
+        #endregion
 
         public VideoListViewModel()
         {
-            ClickVideoCommand = new Command(async (parameter) =>
+            ClickCommand = new Command(async (parameter) =>
             {
                 var video = parameter as VideoViewModel;
 
@@ -21,10 +25,14 @@ namespace JableDownloader.ViewModels
             });
         }
 
-        public ICommand ClickVideoCommand { get; private set; }
+        /// <summary>
+        /// 點擊事件
+        /// </summary>
+        public ICommand ClickCommand { get; private set; }
 
-        public IVideoCrawlerService VideoCrawlerService { get; set; }
-
+        /// <summary>
+        /// 分頁物件
+        /// </summary>
         public Pager<VideoViewModel> Pager
         {
             get { return _pager; }

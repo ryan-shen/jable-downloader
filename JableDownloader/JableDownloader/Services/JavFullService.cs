@@ -5,10 +5,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using HtmlAgilityPack;
+using JableDownloader.Services.Interfaces;
 using JableDownloader.ViewModels;
 
 namespace JableDownloader.Services
 {
+    /// <summary>
+    /// JavFull 的影片下載服務
+    /// </summary>
     internal class JavFullService : IVideoCrawlerService
     {
         private readonly HttpClient _client;
@@ -25,11 +29,20 @@ namespace JableDownloader.Services
             _client = client;
         }
 
+        /// <summary>
+        /// 取得網站名稱
+        /// </summary>
+        /// <returns></returns>
         public string GetSiteName()
         {
             return "JavFull";
         }
 
+        /// <summary>
+        /// 取得最新影片清單
+        /// </summary>
+        /// <param name="page">第幾頁</param>
+        /// <returns></returns>
         public async Task<Pager<VideoViewModel>> GetRecentVideos(int page = 1)
         {
             var result = await _client.GetAsync($"page/{page}/");
@@ -46,7 +59,7 @@ namespace JableDownloader.Services
 
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
-                Name = HttpUtility.HtmlDecode(node.SelectSingleNode(".//div[@class='video-caption']/h4").InnerText),
+                Title = HttpUtility.HtmlDecode(node.SelectSingleNode(".//div[@class='video-caption']/h4").InnerText),
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("src", ""),
                 PreviewUrl = null,
                 Url = node.SelectSingleNode(".//a").GetAttributeValue("href", ""),
@@ -57,6 +70,11 @@ namespace JableDownloader.Services
             }).ToList(), page, pageCount, GetRecentVideos);
         }
 
+        /// <summary>
+        /// 取得熱門影片清單
+        /// </summary>
+        /// <param name="page">第幾頁</param>
+        /// <returns></returns>
         public async Task<Pager<VideoViewModel>> GetPopularVideos(int page = 1)
         {
             var result = await _client.GetAsync($"top-jav-movies-this-month/");
@@ -70,7 +88,7 @@ namespace JableDownloader.Services
 
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
-                Name = HttpUtility.HtmlDecode(node.SelectSingleNode(".//div[@class='video-caption']/h4").InnerText),
+                Title = HttpUtility.HtmlDecode(node.SelectSingleNode(".//div[@class='video-caption']/h4").InnerText),
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("src", ""),
                 PreviewUrl = null,
                 Url = node.SelectSingleNode(".//a").GetAttributeValue("href", ""),
@@ -81,6 +99,12 @@ namespace JableDownloader.Services
             }).ToList(), page, 1, GetRecentVideos);
         }
 
+        /// <summary>
+        /// 搜尋影片
+        /// </summary>
+        /// <param name="query">搜尋字串</param>
+        /// <param name="page">第幾頁</param>
+        /// <returns></returns>
         public async Task<Pager<VideoViewModel>> SearchVideos(string query, int page = 1)
         {
             var result = await _client.GetAsync($"search/{query}");
@@ -97,7 +121,7 @@ namespace JableDownloader.Services
 
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
-                Name = HttpUtility.HtmlDecode(node.SelectSingleNode(".//div[@class='video-caption']/h4").InnerText),
+                Title = HttpUtility.HtmlDecode(node.SelectSingleNode(".//div[@class='video-caption']/h4").InnerText),
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("src", ""),
                 PreviewUrl = null,
                 Url = node.SelectSingleNode(".//a").GetAttributeValue("href", ""),
@@ -108,6 +132,11 @@ namespace JableDownloader.Services
             }).ToList(), page, pageCount, (p) => SearchVideos(query, p));
         }
 
+        /// <summary>
+        /// 爬出頁面內影片檔案所在的 URL
+        /// </summary>
+        /// <param name="url">影片播放頁面網址</param>
+        /// <returns></returns>
         public async Task<string> GetVideoUrl(string url)
         {
             throw new NotImplementedException("Can not get the video url because this website is a SPA");

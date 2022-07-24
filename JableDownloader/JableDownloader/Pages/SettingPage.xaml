@@ -4,10 +4,12 @@
              xmlns:model="clr-namespace:JableDownloader.ViewModels"
              x:Class="JableDownloader.Pages.SettingPage">
     
+    <!--綁定資料來源-->
     <ContentPage.BindingContext>
         <model:SettingViewModel/>
     </ContentPage.BindingContext>
     
+    <!--資料版面-->
     <StackLayout>
         <TableView Intent="Settings" 
                    HeightRequest="350" 

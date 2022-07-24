@@ -8,22 +8,22 @@
              x:Name="ContentPage">
 
     <CollectionView ItemsSource="{Binding Pager.Datas}">
-        <!--資料的排列方式，Orientation 為 Vertical 表示先橫再直，Horizontal 表示先直再橫-->
-        <!--Span 表示先的那個方向可以容納幾筆資料 (例如對 Vertical 設 Span = 3 就是橫的可以放 3 筆-->
+        <!--資料排列方式-->
         <CollectionView.ItemsLayout>
             <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="10"/>
         </CollectionView.ItemsLayout>
 
-        <!--絕對不要在 DataTemplate 裡面包 ViewCell，否則會導致 Specified cast is not valid 錯誤-->
-        <!--原因為 CollectionView、Grid 都不像 ListView 一樣有 Cell 的概念-->
+        <!--資料內容模板-->
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="model:VideoViewModel">
                 <StackLayout>
+                    <!--設定手勢事件-->
                     <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding BindingContext.ClickVideoCommand, Source={Reference ContentPage}}"
+                        <TapGestureRecognizer Command="{Binding BindingContext.ClickCommand, Source={Reference ContentPage}}"
                                               CommandParameter="{Binding}"/>
                     </StackLayout.GestureRecognizers>
 
+                    <!--影片縮圖、影片長度-->
                     <AbsoluteLayout>
                         <Image AbsoluteLayout.LayoutBounds="0.5, 0.5, 200, 100"
                                AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -35,8 +35,12 @@
                                Text="{Binding Duration}" 
                                TextColor="White"/>
                     </AbsoluteLayout>
-                    <Label Text="{Binding Name}" 
+                    
+                    <!--影片標題-->
+                    <Label Text="{Binding Title}" 
                            MaxLines="1"/>
+                    
+                    <!--觀看數、愛心數-->
                     <StackLayout Orientation="Horizontal">
                         <ff:SvgCachedImage Source="resource://JableDownloader.Resources.Images.icon_eye.svg"
                                            WidthRequest="20"/>
@@ -54,6 +58,7 @@
             </DataTemplate>
         </CollectionView.ItemTemplate>
 
+        <!--分頁設定-->
         <CollectionView.Footer>
             <FlexLayout Direction="Row" 
                         JustifyContent="SpaceEvenly" 

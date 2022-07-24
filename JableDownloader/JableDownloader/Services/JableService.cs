@@ -6,10 +6,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using HtmlAgilityPack;
+using JableDownloader.Services.Interfaces;
 using JableDownloader.ViewModels;
 
 namespace JableDownloader.Services
 {
+    /// <summary>
+    /// Jable 的影片下載服務
+    /// </summary>
     public class JableService : IVideoCrawlerService
     {
         private readonly HttpClient _client;
@@ -28,11 +32,21 @@ namespace JableDownloader.Services
             _client = client;
         }
 
+        /// <summary>
+        /// 取得網站名稱
+        /// </summary>
+        /// <returns></returns>
         public string GetSiteName()
         {
             return "Jable";
         }
 
+        /// <summary>
+        /// 取得所有女優
+        /// </summary>
+        /// <param name="sortBy">排序方式</param>
+        /// <param name="page">第幾頁</param>
+        /// <returns></returns>
         public async Task<Pager<ActressViewModel>> GetActresses(string sortBy, int page = 1)
         {
             var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress, "models/"));
@@ -66,6 +80,12 @@ namespace JableDownloader.Services
             }).ToList(), page, pageCount, (p) => GetActresses(sortBy, p));
         }
 
+        /// <summary>
+        /// 取得指定女優網址底下的所有影片
+        /// </summary>
+        /// <param name="url">女優網址</param>
+        /// <param name="page">第幾頁</param>
+        /// <returns></returns>
         public async Task<Pager<VideoViewModel>> GetVideos(string url, int page = 1)
         {
             var result = await _client.GetAsync(url);
@@ -84,7 +104,7 @@ namespace JableDownloader.Services
 
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
-                Name = node.SelectSingleNode(".//div[@class='detail']/h6[@class='title']").InnerText,
+                Title = node.SelectSingleNode(".//div[@class='detail']/h6[@class='title']").InnerText,
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-src", ""),
                 PreviewUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-preview", ""),
                 Url = node.SelectSingleNode(".//a").GetAttributeValue("href", ""),
@@ -95,6 +115,11 @@ namespace JableDownloader.Services
             }).ToList(), page, pageCount, (p) => GetVideos(url, p));
         }
 
+        /// <summary>
+        /// 取得最新影片清單
+        /// </summary>
+        /// <param name="page">第幾頁</param>
+        /// <returns></returns>
         public async Task<Pager<VideoViewModel>> GetRecentVideos(int page = 1)
         {
             var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress, "latest-updates/"));
@@ -122,7 +147,7 @@ namespace JableDownloader.Services
 
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
-                Name = node.SelectSingleNode(".//h6[@class='title']").InnerText,
+                Title = node.SelectSingleNode(".//h6[@class='title']").InnerText,
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-src", ""),
                 PreviewUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-preview", ""),
                 Url = node.SelectSingleNode(".//a").GetAttributeValue("href", ""),
@@ -133,11 +158,22 @@ namespace JableDownloader.Services
             }).ToList(), page, pageCount, GetRecentVideos);
         }
 
+        /// <summary>
+        /// 取得熱門影片清單
+        /// </summary>
+        /// <param name="page">第幾頁</param>
+        /// <returns></returns>
         public async Task<Pager<VideoViewModel>> GetPopularVideos(int page = 1)
         {
             return await GetPopularVideos("video_viewed_week", page);
         }
 
+        /// <summary>
+        /// 取得熱門影片清單
+        /// </summary>
+        /// <param name="sortBy">排序方式</param>
+        /// <param name="page">第幾頁</param>
+        /// <returns></returns>
         public async Task<Pager<VideoViewModel>> GetPopularVideos(string sortBy, int page = 1)
         {
             var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress, "hot/"));
@@ -165,7 +201,7 @@ namespace JableDownloader.Services
 
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
-                Name = node.SelectSingleNode(".//h6[@class='title']").InnerText,
+                Title = node.SelectSingleNode(".//h6[@class='title']").InnerText,
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-src", ""),
                 PreviewUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-preview", ""),
                 Url = node.SelectSingleNode(".//a").GetAttributeValue("href", ""),
@@ -176,6 +212,12 @@ namespace JableDownloader.Services
             }).ToList(), page, pageCount, (p) => GetPopularVideos(sortBy, p));
         }
 
+        /// <summary>
+        /// 搜尋影片
+        /// </summary>
+        /// <param name="query">搜尋字串</param>
+        /// <param name="page">第幾頁</param>
+        /// <returns></returns>
         public async Task<Pager<VideoViewModel>> SearchVideos(string query, int page = 1)
         {
             var uriBuilder = new UriBuilder(new Uri(_client.BaseAddress, $@"search/{query}"));
@@ -205,7 +247,7 @@ namespace JableDownloader.Services
 
             return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
             {
-                Name = node.SelectSingleNode(".//div[@class='detail']/h6[@class='title']").InnerText,
+                Title = node.SelectSingleNode(".//div[@class='detail']/h6[@class='title']").InnerText,
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-src", ""),
                 PreviewUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-preview", ""),
                 Url = node.SelectSingleNode(".//a").GetAttributeValue("href", ""),
@@ -216,6 +258,11 @@ namespace JableDownloader.Services
             }).ToList(), page, pageCount, (p) => SearchVideos(query, p));
         }
 
+        /// <summary>
+        /// 爬出頁面內影片檔案所在的 URL
+        /// </summary>
+        /// <param name="url">影片播放頁面網址</param>
+        /// <returns></returns>
         public async Task<string> GetVideoUrl(string url)
         {
             HttpClient client = new HttpClient();

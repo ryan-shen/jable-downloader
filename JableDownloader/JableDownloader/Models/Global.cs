@@ -3,6 +3,9 @@ using Xamarin.Forms;
 
 namespace JableDownloader.Models
 {
+    /// <summary>
+    /// 用來存取 APP 的全域變數
+    /// </summary>
     internal static class Global
     {
         #region Common getter & setter

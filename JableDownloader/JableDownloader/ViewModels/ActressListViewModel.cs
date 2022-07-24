@@ -5,13 +5,16 @@ using Xamarin.Forms;
 
 namespace JableDownloader.ViewModels
 {
+    /// <summary>
+    /// 女優清單
+    /// </summary>
     public class ActressListViewModel : ViewModelBase
     {
         private Pager<ActressViewModel> _pager;
 
         public ActressListViewModel()
         {
-            ClickActressCommand = new Command(async (parameter) =>
+            ClickCommand = new Command(async (parameter) =>
             {
                 var actress = parameter as ActressViewModel;
 
@@ -26,12 +29,18 @@ namespace JableDownloader.ViewModels
             });
         }
 
-    public ICommand ClickActressCommand { get; private set; }
+        /// <summary>
+        /// 點擊事件
+        /// </summary>
+        public ICommand ClickCommand { get; private set; }
 
-    public Pager<ActressViewModel> Pager
-    {
-        get { return _pager; }
-        set { SetProperty(ref _pager, value); }
+        /// <summary>
+        /// 分頁物件
+        /// </summary>
+        public Pager<ActressViewModel> Pager
+        {
+            get { return _pager; }
+            set { SetProperty(ref _pager, value); }
+        }
     }
-}
 }

@@ -5,13 +5,16 @@
              xmlns:pages="clr-namespace:JableDownloader.ViewModels"
              Title="JableDownloader">
 
+    <!--綁定資料來源-->
     <ContentPage.BindingContext>
         <pages:MenuItemViewModel/>
     </ContentPage.BindingContext>
     
+    <!--資料版面-->
     <StackLayout>
         <ListView x:Name="MenuItemsListView"
                   ItemsSource="{Binding MenuItems}">
+            <!--Header-->
             <ListView.Header>
                 <Grid BackgroundColor="#03A9F4">
                     <Grid.ColumnDefinitions>
@@ -31,6 +34,7 @@
                            FontSize="Title"/>
                 </Grid>
             </ListView.Header>
+            <!--資料內容模板-->
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -42,6 +46,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Label Text="Copyright © 2022 Ryan Shen. All rights reserved" Padding="5" FontSize="14"/>
+        <!--著作權聲明-->
+        <Label Text="Copyright © 2022 Ryan Shen. All rights reserved" Padding="5,0" FontSize="14"/>
+        <Label Text="Contact: zx1230516@gmail.com" Padding="5,0" FontSize="14"/>
     </StackLayout>
 </ContentPage>

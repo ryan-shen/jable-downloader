@@ -4,11 +4,13 @@
              xmlns:mm="clr-namespace:MediaManager.Forms;assembly=MediaManager.Forms"
              x:Class="JableDownloader.Pages.HlsPlayerPage">
     <AbsoluteLayout>
+        <!--影片播放器-->
         <mm:VideoView x:Name="VideoView"
                       BackgroundColor="Black"
                       VideoAspect="AspectFit"
                       ShowControls="True"
                       AutoPlay="True"/>
+        <!--轉圈圈-->
         <ActivityIndicator x:Name="VideoIndicator"
                            Color="Gray"
                            AbsoluteLayout.LayoutBounds="0.5, 0.5"
