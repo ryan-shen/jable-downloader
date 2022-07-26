@@ -27,6 +27,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>iOS Team Provisioning Profile: Ryan.JableDownloader</CodesignProvision>
+    <CodesignKey>Apple Development: zx1230516@gmail.com (ZK3457PLG5)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -46,11 +48,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: zx1230516@gmail.com (ZK3457PLG5)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignEntitlements></CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
+    <CodesignProvision>iOS Team Provisioning Profile: Ryan.JableDownloader</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -61,6 +64,7 @@
     <MtouchArch>ARM64</MtouchArch>
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -136,7 +140,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\JableDownloader\JableDownloader.csproj">
-      <Project>{2158B7A3-7812-4D89-81EA-42C1E9A919B1}</Project>
+      <Project>{032293FF-7E62-48FF-9A33-DCFF7075EE4D}</Project>
       <Name>JableDownloader</Name>
     </ProjectReference>
   </ItemGroup>
