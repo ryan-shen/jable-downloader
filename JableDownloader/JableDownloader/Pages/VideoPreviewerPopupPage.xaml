@@ -7,7 +7,8 @@
     xmlns:mm="clr-namespace:MediaManager.Forms;assembly=MediaManager.Forms"
     xmlns:model="clr-namespace:JableDownloader.ViewModels"
     x:DataType="model:VideoViewModel"
-    x:Class="JableDownloader.Pages.VideoPreviewerPopupPage">
+    x:Class="JableDownloader.Pages.VideoPreviewerPopupPage"
+    CloseWhenBackgroundIsClicked="True">
 
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation 
@@ -22,10 +23,10 @@
             HasBackgroundAnimation="True"/>
     </pages:PopupPage.Animation>
 
-    <ScrollView>
-        <StackLayout VerticalOptions="Center" 
-                     HorizontalOptions="Center"
-                     BackgroundColor="{AppThemeBinding Light={Static Color.White}, Dark={Static Color.Black}}">
+    <ScrollView VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                BackgroundColor="{AppThemeBinding Light={Static Color.White}, Dark={Static Color.Black}}">
+        <StackLayout>
             <Label Text="{Binding Title}" FontSize="Title"/>
             <AbsoluteLayout>
                 <mm:VideoView VerticalOptions="Center" 

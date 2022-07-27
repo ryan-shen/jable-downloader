@@ -50,7 +50,8 @@
     <MtouchArch>ARM64</MtouchArch>
     <CodesignKey>Apple Development: zx1230516@gmail.com (ZK3457PLG5)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignEntitlements></CodesignEntitlements>
+    <CodesignEntitlements>
+    </CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
     <CodesignProvision>iOS Team Provisioning Profile: Ryan.JableDownloader</CodesignProvision>
@@ -133,6 +134,12 @@
     </PackageReference>
     <PackageReference Include="Plugin.MediaManager">
       <Version>1.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.MediaManager.Forms">
+      <Version>1.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Rg.Plugins.Popup">
+      <Version>2.1.0</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
