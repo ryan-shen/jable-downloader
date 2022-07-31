@@ -23,19 +23,21 @@
             HasBackgroundAnimation="True"/>
     </pages:PopupPage.Animation>
 
-    <ScrollView VerticalOptions="Center" 
-                HorizontalOptions="Center"
+    <ScrollView VerticalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
                 BackgroundColor="{AppThemeBinding Light={Static Color.White}, Dark={Static Color.Black}}">
-        <StackLayout>
+        <StackLayout VerticalOptions="FillAndExpand"
+                     HorizontalOptions="FillAndExpand">
             <Label Text="{Binding Title}" FontSize="Title"/>
-            <AbsoluteLayout>
-                <mm:VideoView VerticalOptions="Center" 
-                              HeightRequest="200"
-                              Margin="0, 20, 0, 20"
-                              Source="{Binding PreviewUrl}" 
-                              ShowControls="False"
+            <AbsoluteLayout VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            HeightRequest="250" >
+                <mm:VideoView Source="{Binding PreviewUrl}" 
                               Repeat="All"
-                              AutoPlay="True"/>
+                              AutoPlay="True"
+                              VideoAspect="AspectFit"
+                              AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1"
+                              AbsoluteLayout.LayoutFlags="All"/>
                 <ActivityIndicator x:Name="VideoIndicator"
                                    Color="Gray"
                                    AbsoluteLayout.LayoutBounds="0.5, 0.5"
