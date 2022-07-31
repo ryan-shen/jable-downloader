@@ -3,6 +3,7 @@ using MediaManager;
 using MediaManager.Playback;
 using MediaManager.Player;
 using Rg.Plugins.Popup.Pages;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace JableDownloader.Pages
@@ -19,20 +20,24 @@ namespace JableDownloader.Pages
 
             BindingContext = video;
 
-            CrossMediaManager.Current.StateChanged += async (object sender, StateChangedEventArgs e) =>
+            CrossMediaManager.Current.StateChanged += (object sender, StateChangedEventArgs e) =>
             {
-                switch (e.State)
+                //必須強制在 UI Thread 執行，用來否則 iOS 在設定 VideoIndicator.IsRunning 時會噴 UIKitThreadAccessException
+                Device.BeginInvokeOnMainThread(async () =>
                 {
-                    case MediaPlayerState.Buffering:
-                        VideoIndicator.IsRunning = true;
-                        break;
-                    case MediaPlayerState.Failed:
-                        await DisplayAlert("Error", "Loading video failed", "OK");
-                        break;
-                    default:
-                        VideoIndicator.IsRunning = false;
-                        break;
-                }
+                    switch (e.State)
+                    {
+                        case MediaPlayerState.Buffering:
+                            VideoIndicator.IsRunning = true;
+                            break;
+                        case MediaPlayerState.Failed:
+                            await DisplayAlert("Error", "Loading video failed", "OK");
+                            break;
+                        default:
+                            VideoIndicator.IsRunning = false;
+                            break;
+                    }
+                });
             };
         }
 
