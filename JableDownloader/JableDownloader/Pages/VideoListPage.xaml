@@ -10,13 +10,13 @@
     <CollectionView ItemsSource="{Binding Pager.Datas}">
         <!--資料排列方式-->
         <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="10"/>
+            <GridItemsLayout Orientation="Vertical" Span="2"/>
         </CollectionView.ItemsLayout>
 
         <!--資料內容模板-->
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="model:VideoViewModel">
-                <StackLayout>
+                <StackLayout Margin="0, 10, 0, 0">
                     <!--設定手勢事件-->
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding BindingContext.ClickCommand, Source={Reference ContentPage}}"

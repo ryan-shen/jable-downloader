@@ -10,13 +10,13 @@
     <CollectionView ItemsSource="{Binding Pager.Datas}">
         <!--資料排列方式-->
         <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="20"/>
+            <GridItemsLayout Orientation="Vertical" Span="2"/>
         </CollectionView.ItemsLayout>
 
         <!--資料內容模板-->
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="model:ActressViewModel">
-                <Grid HeightRequest="80">
+                <Grid HeightRequest="100">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -31,7 +31,7 @@
                                               CommandParameter="{Binding}"/>
                     </Grid.GestureRecognizers>
 
-                    <ff:SvgCachedImage Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding ImageUrl}" />
+                    <ff:SvgCachedImage Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding ImageUrl}" Aspect="AspectFit"/>
                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
                     <Label Grid.Row="1" Grid.Column="1" Text="{Binding VideoCountText}"/>
                 </Grid>
