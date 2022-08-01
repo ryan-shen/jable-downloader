@@ -1,4 +1,5 @@
-﻿using JableDownloader.iOS.Services;
+﻿using System;
+using JableDownloader.iOS.Services;
 using JableDownloader.Services.Interfaces;
 using Xamarin.Forms;
 
@@ -16,7 +17,10 @@ namespace JableDownloader.iOS.Services
         /// <returns></returns>
         public string GetDownloadDirectory()
         {
-            return "";
+            string docFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            //string libFolder = System.IO.Path.Combine(docFolder, "..", "Library");
+            
+            return docFolder;
         }
     }
 }
