@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -149,7 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JableDownloader\JableDownloader.csproj">
-      <Project>{2158B7A3-7812-4D89-81EA-42C1E9A919B1}</Project>
+      <Project>{032293FF-7E62-48FF-9A33-DCFF7075EE4D}</Project>
       <Name>JableDownloader</Name>
     </ProjectReference>
   </ItemGroup>

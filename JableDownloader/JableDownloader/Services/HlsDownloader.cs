@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace JableDownloader.Services
@@ -139,8 +138,6 @@ namespace JableDownloader.Services
                     throw new Exception($"An error occurred when downloading {fileName}", ex);
                 }
             }
-
-            Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 
             return response;
         }
