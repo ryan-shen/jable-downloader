@@ -33,6 +33,7 @@
                             HorizontalOptions="FillAndExpand"
                             HeightRequest="250" >
                 <mm:VideoView Source="{Binding PreviewUrl}" 
+                              ShowControls="False"
                               Repeat="All"
                               AutoPlay="True"
                               VideoAspect="AspectFit"
