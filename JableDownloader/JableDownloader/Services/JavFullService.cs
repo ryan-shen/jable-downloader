@@ -119,7 +119,7 @@ namespace JableDownloader.Services
             HtmlNode pageNode = htmlDocument.DocumentNode.SelectSingleNode("(//ul[@class='pagination justify-content-center']/li/a[name(*) != 'span'])[last()]");
             int pageCount = pageNode == null ? 1 : Convert.ToInt32(pageNode.InnerText);
 
-            return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
+            return new Pager<VideoViewModel>(videoNodes?.Select(node => new VideoViewModel
             {
                 Title = HttpUtility.HtmlDecode(node.SelectSingleNode(".//div[@class='video-caption']/h4").InnerText),
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("src", ""),

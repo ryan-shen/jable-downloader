@@ -245,7 +245,7 @@ namespace JableDownloader.Services
             int pageCount = string.IsNullOrEmpty(dataParameters) ?
                 1 : Convert.ToInt32(Regex.Match(dataParameters, @"(?<=from_videos\+from_albums:)\d+").Value);
 
-            return new Pager<VideoViewModel>(videoNodes.Select(node => new VideoViewModel
+            return new Pager<VideoViewModel>(videoNodes?.Select(node => new VideoViewModel
             {
                 Title = node.SelectSingleNode(".//div[@class='detail']/h6[@class='title']").InnerText,
                 ImageUrl = node.SelectSingleNode(".//img").GetAttributeValue("data-src", ""),
