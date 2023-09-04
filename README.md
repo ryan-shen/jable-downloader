@@ -5,6 +5,7 @@ It's an app which allows you to play and download videos provided by an adult vi
 This project is inspired by [HenryMHH's JableDownloaderGUI](https://github.com/HenryMHH/JableDownloaderGUI) and [hcjohn463's JableTVDownload](https://github.com/hcjohn463/JableTVDownload).
 
 # Demo Videos
+### ⚠️⚠️⚠️Warning: There is ADULT-ONLY content in these demo videos⚠️⚠️⚠️
 - [Android](https://drive.google.com/open?id=1wObmPgcncKA7x_S4BrId1jkDRlwyuBFh&authuser=zx1230516%40gmail.com&usp=drive_fs)
 - iOS (Currently Unavailable)
 - [Android & iOS in development mode](https://drive.google.com/open?id=15HTwvvuxz5r7mHM4xGu7Xaw3gxzQHLXe&authuser=zx1230516%40gmail.com&usp=drive_fs)
